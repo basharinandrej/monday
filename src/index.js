@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import App from './App.tsx';
-import {listTasksReducer} from './redux/reducers/listTasks.js'
+import {rootReducer} from "./redux/reducers/combineReducers";
 
 import {applyMiddleware, compose, createStore} from "redux";
 import {Provider} from 'react-redux'
@@ -13,7 +13,7 @@ const composeEnhancers =
         }) : compose;
 
 const store = createStore(
-  listTasksReducer,
+    rootReducer,
   composeEnhancers(
     applyMiddleware(thunk)
   ))

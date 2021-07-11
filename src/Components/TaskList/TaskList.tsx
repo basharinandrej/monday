@@ -1,7 +1,7 @@
 import React from 'react'
 import SingleTask from "./SingleTask/SingleTask";
 import './TaskList.sass'
-import { setApiTasks } from 'src/redux/actions/tasks';
+import {ActionAPI} from 'src/redux/actions/tasks';
 import { useDispatch, useSelector } from 'react-redux';
 
 interface TaskInterface {
@@ -11,31 +11,28 @@ interface TaskInterface {
 }
 
 interface RootState {
-    tasks: [{
-        id: number,
-        title: string,
-        importanceLevel: number
-    }]
+    tasks: {
+        items: Array<TaskInterface>,
+        isLoadingTasks: boolean
+    }
 }
 
 const TaskList = () => {
     const dispatch = useDispatch()
     const state = useSelector((state: RootState) => state)
-    const [tasks, setTasks] = React.useState(state.tasks)
-    console.log('state', state.isLoadingTasks)
+
+    const [tasks, setTasks] = React.useState<TaskInterface[]>()
 
     React.useEffect(() => {
-        dispatch(setApiTasks())
+        dispatch(ActionAPI.setApiTasks())
     }, [])
 
-    // @ts-ignore
-    return state.tasks && 'as'
-}
+    React.useEffect(() => {
+        setTasks(state.tasks.items)
+    }, [state])
 
-export default TaskList
-
-
-{/* <ul className="task-list">
+    return !state.tasks.isLoadingTasks ? (
+        <ul className="task-list">
             <li className="task-list__head-list head-list">
                 <p className="head-list__paragraph">
                     ID элемента
@@ -47,7 +44,7 @@ export default TaskList
                     Сложность
                 </p>
             </li>
-            {tasks.map((task) => {
+            {tasks?.map((task) => {
                 return <SingleTask
                     key={task.id}
                     title={task.title}
@@ -55,4 +52,10 @@ export default TaskList
                     importanceLevel={task.importanceLevel}
                 />
             })}
-        </ul> */}
+        </ul>
+    ) : (
+        <p>Загрузка .....</p>
+    )
+}
+
+export default TaskList
