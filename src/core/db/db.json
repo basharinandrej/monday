@@ -2,7 +2,7 @@
   "tasks": [
     {
       "id": 1,
-      "title": "dfsdf",
+      "title": "dfsdfв",
       "importanceLevel": "5"
     },
     {
@@ -16,21 +16,21 @@
       "importanceLevel": 0
     },
     {
-      "title": "44",
+      "title": "3234",
       "id": 4,
       "importanceLevel": "5"
     },
     {
-      "title": "4",
+      "title": "4d",
       "id": 5,
-      "importanceLevel": "4",
+      "importanceLevel": "3",
       "statusTaskId": 1
     }
   ],
   "statusTask": [
     {
-      "text": "11",
-      "color": "#ff0000",
+      "text": "213",
+      "color": "#0fff37",
       "taskId": 1,
       "id": 1
     },
@@ -54,8 +54,8 @@
     },
     {
       "id": 5,
-      "text": "213",
-      "color": "#0fff37",
+      "text": "3213",
+      "color": "#13491c",
       "taskId": 5
     }
   ],
@@ -83,6 +83,12 @@
       "color": "#0bb5c1",
       "taskId": 2,
       "id": 5
+    },
+    {
+      "text": "3213",
+      "color": "#13491c",
+      "taskId": 5,
+      "id": 6
     }
   ]
 }

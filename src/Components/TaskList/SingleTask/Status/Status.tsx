@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import './Status.sass'
+import {ActionAPI} from 'src/redux/actions/tasks'
 
 type statusTaskPropsTypes = {
     idTask: string | number
@@ -21,6 +23,8 @@ type statusType = {
 
 const StatusTask = (props: statusTaskPropsTypes) => {
     const {idTask} = props
+    const dispatch = useDispatch()
+    const state = useSelector(state => state)
 
     const [statusTask, setStatusTask] = React.useState<statusTask>()
     const [isOpenPopup, setIsOpenPopup] = React.useState<boolean>(false)
@@ -30,12 +34,7 @@ const StatusTask = (props: statusTaskPropsTypes) => {
     const [activeStatus, setActiveStatus] = React.useState<number>(0)
 
     React.useEffect(() => {
-        axios
-            .get(`http://localhost:3001/statusTask?taskId=${idTask}`)
-            .then(resp => {
-                setStatusTask(resp.data[0])
-            })
-            .catch(err => console.log('errStatusTask', err))
+        dispatch(ActionAPI.getStatusSingleTask(idTask as string))
 
         axios.get('http://localhost:3001/allStatus')
             .then(resp => {
@@ -43,6 +42,11 @@ const StatusTask = (props: statusTaskPropsTypes) => {
             })
             .catch(err => console.log('errStatus', err))
     }, [isOpenPopup])
+
+    React.useEffect(() => {
+        const statusTask = state.tasks.statusTask.filter((el: object) => el.taskId === +idTask)[0]
+        setStatusTask(statusTask)
+    }, [state])
 
     const onChangeTextHandler = (e: React.ChangeEvent) => {
         const target = e.target
@@ -101,15 +105,15 @@ const StatusTask = (props: statusTaskPropsTypes) => {
             .catch(resp => console.log('catch_put', resp))
     }
 
-    console.log('allStatus', allStatus);
     return (
         <div className="status-mark">
-            <p  style={{background: statusTask?.color}}
+            {!state.tasks.isLoadingStatusSingeTask ? 
+            (<p  style={{background: statusTask?.color}}
                 className="status-mark__paragraph"
                 onClick={() => setIsOpenPopup(!isOpenPopup)}
             >
                 {statusTask && statusTask.text}
-            </p>
+            </p>) : 'Загрузка ....'}
             {isOpenPopup && (
                 <div className="status-mark__popup-status popup-status">
                     <div className="popup-status__wrapper">

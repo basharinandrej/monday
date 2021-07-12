@@ -1,8 +1,9 @@
 import React from 'react'
-import axios from "axios";
 import './SingleTask.sass'
 import ImportanceLevel from "./Importance/Importance";
 import StatusTask from "./Status/Status";
+import { useDispatch } from 'react-redux';
+import {ActionAPI} from 'src/redux/actions/tasks';
 
 type SingleTaskPropsType = {
     title: string
@@ -17,6 +18,7 @@ type Task = {
 }
 
 const SingleTask = (props: SingleTaskPropsType) => {
+    const dispatch = useDispatch()
     const {title, id, importanceLevel} = props
     const [initialTask, setInitialTask] = React.useState<Task>({id: '', title: ''})
     const [updateTask, setUpdateTask] = React.useState<Task>({id: '', title: ''})
@@ -38,15 +40,16 @@ const SingleTask = (props: SingleTaskPropsType) => {
     React.useEffect(() => {
         if (initialTask.title !== updateTask.title) {
             //TODO Вынести BaseUrl http://localhost:3001/
-            axios
-                .patch(
-                    `http://localhost:3001/tasks/${id}`,
-                    {title: updateTask.title}
-                )
-                .then(resp => {
-                    console.log(resp);
-                })
-                .catch(err => console.log('err_patch', err))
+            // axios
+            //     .patch(
+            //         `http://localhost:3001/tasks/${id}`,
+            //         {title: updateTask.title}
+            //     )
+            //     .then(resp => {
+            //         console.log(resp);
+            //     })
+            //     .catch(err => console.log('err_patch', err))
+            dispatch(ActionAPI.editTask(id, {title: updateTask.title}))
         }
 
     }, [initialTask, updateTask])

@@ -24,7 +24,7 @@ const TaskList = () => {
     const [tasks, setTasks] = React.useState<TaskInterface[]>()
 
     React.useEffect(() => {
-        dispatch(ActionAPI.setApiTasks())
+        dispatch(ActionAPI.getTasks())
     }, [])
 
     React.useEffect(() => {

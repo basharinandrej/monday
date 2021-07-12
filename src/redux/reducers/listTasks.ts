@@ -1,6 +1,8 @@
 const initialState = {
     isLoadingTasks: false,
-    items: []
+    isLoadingStatusSingeTask: false,
+    items: [],
+    statusTask: []
 }
 export const tasksReducer = (state = initialState, action: any) => {
     switch(action.type) {
@@ -9,6 +11,12 @@ export const tasksReducer = (state = initialState, action: any) => {
 
         case 'SET_TASKS':
             return {...state, items: action.payload}
+
+        case 'IS_LOADING_STATUS_SINGLE_TASK': 
+            return {...state, isLoadingStatusSingeTask: action.payload}
+
+        case 'SET_STATUS_SINGLE_TASK':
+            return {...state, statusTask: [...state.statusTask, action.payload]}
 
         default:
             return state
