@@ -1,3 +1,9 @@
+type statusTask = {
+    "id": number,
+    "taskId": number,
+    "text": string,
+    "color": string
+}
 const initialState = {
     isLoadingTasks: false,
     isLoadingStatusSingeTask: false,
@@ -16,7 +22,7 @@ export const tasksReducer = (state = initialState, action: any) => {
             return {...state, isLoadingStatusSingeTask: action.payload}
 
         case 'SET_STATUS_SINGLE_TASK':
-            return {...state, statusTask: [...state.statusTask, action.payload]}
+            return {...state, statusTask: [...action.payload]}
 
         default:
             return state

@@ -1,6 +1,13 @@
 import axios from "axios";
 import { baseUrl } from "src/core/baseUrl";
 
+type statusTask = {
+    "id": number,
+    "taskId": number,
+    "text": string,
+    "color": string
+}
+
 export const Action = {
     isLoadingTasks: (status: boolean) => {
         return {
@@ -14,7 +21,7 @@ export const Action = {
             payload
         }
     }, 
-    setStatusSingleTask: (payload: object): object => {
+    setStatusSingleTask: (payload: Array<statusTask>): object => {
         return {
             type: 'SET_STATUS_SINGLE_TASK', 
             payload
@@ -45,12 +52,13 @@ export const ActionAPI = {
             .then(resp => {console.log('resp', resp)})
             .catch(err => console.log('err_patch', err))
     },
-    getStatusSingleTask: (id: string) => (dispatch: (arg0: object) => void) => {
+    getStatusSingleTask: () => (dispatch: (arg0: object) => void) => {
         dispatch(Action.isLoadingStatusSingelTask(true))
         axios
-            .get(`${baseUrl}/statusTask?taskId=${id}`)
+            .get(`${baseUrl}/statusTask`)
             .then(resp => {
-                dispatch(Action.setStatusSingleTask(resp.data[0]))
+                console.log(resp)
+                dispatch(Action.setStatusSingleTask([...resp.data]))
                 dispatch(Action.isLoadingStatusSingelTask(false))
             })
             .catch(err => console.log('errStatusTask', err))

@@ -36,14 +36,14 @@
     },
     {
       "id": 2,
-      "text": "аыва",
-      "color": "#0bb5c1",
+      "text": "5434534534",
+      "color": "#dade0d",
       "taskId": 2
     },
     {
       "id": 3,
-      "text": "аыва",
-      "color": "#0bb5c1",
+      "text": "213",
+      "color": "#0fff37",
       "taskId": 3
     },
     {
@@ -54,18 +54,12 @@
     },
     {
       "id": 5,
-      "text": "3213",
-      "color": "#13491c",
+      "text": "1",
+      "color": "#ff0000",
       "taskId": 5
     }
   ],
   "allStatus": [
-    {
-      "text": "11",
-      "color": "#ff0000",
-      "taskId": 2,
-      "id": 1
-    },
     {
       "text": "213",
       "color": "#0fff37",
@@ -89,6 +83,12 @@
       "color": "#13491c",
       "taskId": 5,
       "id": 6
+    },
+    {
+      "text": "1",
+      "color": "#ff0000",
+      "taskId": 4,
+      "id": 7
     }
   ]
 }

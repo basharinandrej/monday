@@ -21,10 +21,18 @@ type statusType = {
     "color": string
 }
 
+type RootState = {
+    tasks: {
+        isLoadingTasks: boolean,
+        isLoadingStatusSingeTask: boolean,
+        items: Array<object>,
+        statusTask: []
+    }
+}
 const StatusTask = (props: statusTaskPropsTypes) => {
     const {idTask} = props
     const dispatch = useDispatch()
-    const state = useSelector(state => state)
+    const state = useSelector((state: RootState) => state)
 
     const [statusTask, setStatusTask] = React.useState<statusTask>()
     const [isOpenPopup, setIsOpenPopup] = React.useState<boolean>(false)
@@ -34,9 +42,9 @@ const StatusTask = (props: statusTaskPropsTypes) => {
     const [activeStatus, setActiveStatus] = React.useState<number>(0)
 
     React.useEffect(() => {
-        dispatch(ActionAPI.getStatusSingleTask(idTask as string))
+        !isOpenPopup && dispatch(ActionAPI.getStatusSingleTask())
 
-        axios.get('http://localhost:3001/allStatus')
+        isOpenPopup && axios.get('http://localhost:3001/allStatus')
             .then(resp => {
                 setAllStatus(resp.data)
             })
@@ -44,7 +52,8 @@ const StatusTask = (props: statusTaskPropsTypes) => {
     }, [isOpenPopup])
 
     React.useEffect(() => {
-        const statusTask = state.tasks.statusTask.filter((el: object) => el.taskId === +idTask)[0]
+        const statusTask = state.tasks.statusTask.filter((el: statusTask) => el.taskId === +idTask)[0]
+        //console.log('statusTask', statusTask)
         setStatusTask(statusTask)
     }, [state])
 
@@ -92,7 +101,10 @@ const StatusTask = (props: statusTaskPropsTypes) => {
                     taskId: +idTask
                 }
             )
-            .then(resp => console.log('resp_put', resp))
+            .then(resp => {
+                setStatusTask(resp.data)
+                console.log('resp_put1', resp)
+            })
             .catch(resp => console.log('catch_put', resp))
     }
 
@@ -123,7 +135,8 @@ const StatusTask = (props: statusTaskPropsTypes) => {
                                 <span key={status.id + idx}
                                       style={{background: `${status.color}`}}
                                       // @ts-ignore
-                                      className={`popup-status__mark-status mark-status ${(+activeStatus === +id) ? 'mark-status--active' : ''}`}>
+                                      className={`popup-status__mark-status mark-status 
+                                                ${(+activeStatus === +id) ? 'mark-status--active' : ''}`}>
                                     <span onClick={() => onDeleteHandler(id)} className="mark-status__close">&times;</span>
                                     <p
                                         id={id}
