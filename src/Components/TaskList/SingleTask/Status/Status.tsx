@@ -3,9 +3,10 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './Status.sass'
 import {ActionAPI} from 'src/redux/actions/tasks'
+import ClickOutside from 'src/hooks/useOutsideClick'
 
 type statusTaskPropsTypes = {
-    idTask: string | number
+    idTask: string
 }
 
 type statusTask = {
@@ -33,6 +34,8 @@ const StatusTask = (props: statusTaskPropsTypes) => {
     const {idTask} = props
     const dispatch = useDispatch()
     const state = useSelector((state: RootState) => state)
+    const popupRef = React.useRef<HTMLDivElement>(null)
+
 
     const [statusTask, setStatusTask] = React.useState<statusTask>()
     const [isOpenPopup, setIsOpenPopup] = React.useState<boolean>(false)
@@ -41,9 +44,14 @@ const StatusTask = (props: statusTaskPropsTypes) => {
     const [allStatus, setAllStatus] = React.useState<statusType[]>()
     const [activeStatus, setActiveStatus] = React.useState<number>(0)
 
-    React.useEffect(() => {
-        !isOpenPopup && dispatch(ActionAPI.getStatusSingleTask())
+    // @ts-ignore
+    ClickOutside(popupRef, setIsOpenPopup)
 
+    React.useEffect(() => {
+        dispatch(ActionAPI.getStatusSingleTask(idTask))
+    }, [])
+
+    React.useEffect(() => {
         isOpenPopup && axios.get('http://localhost:3001/allStatus')
             .then(resp => {
                 setAllStatus(resp.data)
@@ -53,7 +61,6 @@ const StatusTask = (props: statusTaskPropsTypes) => {
 
     React.useEffect(() => {
         const statusTask = state.tasks.statusTask.filter((el: statusTask) => el.taskId === +idTask)[0]
-        //console.log('statusTask', statusTask)
         setStatusTask(statusTask)
     }, [state])
 
@@ -71,19 +78,14 @@ const StatusTask = (props: statusTaskPropsTypes) => {
     const onSubmitHandler = (e: React.FormEvent) => {
         e.preventDefault()
 
-        axios
-            .post(`http://localhost:3001/allStatus`,
-                {text, color, taskId: +idTask}
-            )
-            .then(resp => {
-                // @ts-ignore
-                setAllStatus([...allStatus, {
-                    text, color,
-                    taskId: +idTask,
-                    // @ts-ignore
-                    id: allStatus[allStatus?.length - 1].id + 1
-                }])
-            })
+        dispatch(ActionAPI.addNewStatus({text, color, taskId: +idTask}))
+        // @ts-ignore
+        setAllStatus([...allStatus, {
+            text, color,
+            taskId: +idTask,
+            // @ts-ignore
+            id: allStatus[allStatus?.length - 1].id + 1
+        }])
     }
 
     const onClickStatusHandler = (e: React.MouseEvent) => {
@@ -108,13 +110,10 @@ const StatusTask = (props: statusTaskPropsTypes) => {
             .catch(resp => console.log('catch_put', resp))
     }
 
-    const onDeleteHandler = (id: string | undefined) => {
+    const onDeleteHandler = (id: string) => {
         // @ts-ignore
         setAllStatus(allStatus.filter(el => el.id !== +id))
-        axios
-            .delete(`http://localhost:3001/allStatus/${id}`)
-            .then(resp => console.log('resp_put', resp))
-            .catch(resp => console.log('catch_put', resp))
+        dispatch(ActionAPI.deleteStatus(id))
     }
 
     return (
@@ -127,7 +126,7 @@ const StatusTask = (props: statusTaskPropsTypes) => {
                 {statusTask && statusTask.text}
             </p>) : 'Загрузка ....'}
             {isOpenPopup && (
-                <div className="status-mark__popup-status popup-status">
+                <div className="status-mark__popup-status popup-status" ref={popupRef}>
                     <div className="popup-status__wrapper">
                         {allStatus?.map((status, idx) => {
                             const id = status.id?.toString()

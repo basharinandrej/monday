@@ -1,6 +1,6 @@
 import React from 'react'
 import SingleTask from "./SingleTask/SingleTask";
-import './TaskList.sass'
+import './ListTasks.sass'
 import {ActionAPI} from 'src/redux/actions/tasks';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,7 +17,7 @@ interface RootState {
     }
 }
 
-const TaskList = () => {
+const ListTasks = () => {
     const dispatch = useDispatch()
     const state = useSelector((state: RootState) => state)
 
@@ -58,4 +58,4 @@ const TaskList = () => {
     )
 }
 
-export default TaskList
+export default ListTasks

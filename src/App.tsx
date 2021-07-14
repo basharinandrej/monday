@@ -1,5 +1,5 @@
 import './App.css';
-import TaskList from "./Components/TaskList/TaskList";
+import ListTasks from "./Components/TaskList/ListTasks";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
             <h1>Monday</h1>
             <br />
             <br />
-            <TaskList/>
+            <ListTasks/>
         </div>
     </div>
   );

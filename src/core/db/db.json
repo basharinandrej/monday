@@ -11,26 +11,26 @@
       "importanceLevel": "4"
     },
     {
-      "title": "34213",
+      "title": "34",
       "id": 3,
       "importanceLevel": 0
     },
     {
       "title": "3234",
       "id": 4,
-      "importanceLevel": "5"
+      "importanceLevel": 0
     },
     {
-      "title": "4d",
+      "title": "4d1",
       "id": 5,
-      "importanceLevel": "3",
+      "importanceLevel": "4",
       "statusTaskId": 1
     }
   ],
   "statusTask": [
     {
-      "text": "213",
-      "color": "#0fff37",
+      "text": "3212",
+      "color": "#2ec610",
       "taskId": 1,
       "id": 1
     },
@@ -54,8 +54,8 @@
     },
     {
       "id": 5,
-      "text": "1",
-      "color": "#ff0000",
+      "text": "123",
+      "color": "#3e1818",
       "taskId": 5
     }
   ],
@@ -85,10 +85,40 @@
       "id": 6
     },
     {
-      "text": "1",
+      "text": "12",
+      "color": "#0011ff",
+      "taskId": 5,
+      "id": 8
+    },
+    {
+      "text": "3",
       "color": "#ff0000",
-      "taskId": 4,
-      "id": 7
+      "taskId": 5,
+      "id": 9
+    },
+    {
+      "text": "3212",
+      "color": "#2ec610",
+      "taskId": 5,
+      "id": 10
+    },
+    {
+      "text": "123",
+      "color": "#3e1818",
+      "taskId": 5,
+      "id": 11
+    },
+    {
+      "text": "123",
+      "color": "#3e1818",
+      "taskId": 5,
+      "id": 12
+    },
+    {
+      "text": "vfsd",
+      "color": "#f35959",
+      "taskId": 5,
+      "id": 13
     }
   ]
 }

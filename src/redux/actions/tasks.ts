@@ -21,7 +21,7 @@ export const Action = {
             payload
         }
     }, 
-    setStatusSingleTask: (payload: Array<statusTask>): object => {
+    setStatusSingleTask: (payload: statusTask): object => {
         return {
             type: 'SET_STATUS_SINGLE_TASK', 
             payload
@@ -52,15 +52,25 @@ export const ActionAPI = {
             .then(resp => {console.log('resp', resp)})
             .catch(err => console.log('err_patch', err))
     },
-    getStatusSingleTask: () => (dispatch: (arg0: object) => void) => {
+    getStatusSingleTask: (idTask: string) => (dispatch: (arg0: object) => void) => {
         dispatch(Action.isLoadingStatusSingelTask(true))
         axios
-            .get(`${baseUrl}/statusTask`)
+            .get(`${baseUrl}/statusTask?taskId=${idTask}`)
             .then(resp => {
-                console.log(resp)
-                dispatch(Action.setStatusSingleTask([...resp.data]))
+                dispatch(Action.setStatusSingleTask([...resp.data][0]))
                 dispatch(Action.isLoadingStatusSingelTask(false))
             })
             .catch(err => console.log('errStatusTask', err))
+    },
+    addNewStatus: (newStatus: object) => (dispatch: (arg0: object) => void) => {
+        axios
+            .post(`http://localhost:3001/allStatus`, newStatus)
+            .then(resp => {console.log('respAllStatus', resp)})
+    },
+    deleteStatus: (id: string) => (dispatch: (arg0: object) => void) => {
+        axios
+            .delete(`http://localhost:3001/allStatus/${id}`)
+            .then(resp => console.log('resp_put', resp))
+            .catch(resp => console.log('catch_put', resp))
     }
 }

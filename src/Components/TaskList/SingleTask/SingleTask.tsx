@@ -39,16 +39,6 @@ const SingleTask = (props: SingleTaskPropsType) => {
 
     React.useEffect(() => {
         if (initialTask.title !== updateTask.title) {
-            //TODO Вынести BaseUrl http://localhost:3001/
-            // axios
-            //     .patch(
-            //         `http://localhost:3001/tasks/${id}`,
-            //         {title: updateTask.title}
-            //     )
-            //     .then(resp => {
-            //         console.log(resp);
-            //     })
-            //     .catch(err => console.log('err_patch', err))
             dispatch(ActionAPI.editTask(id, {title: updateTask.title}))
         }
 

@@ -22,7 +22,7 @@ export const tasksReducer = (state = initialState, action: any) => {
             return {...state, isLoadingStatusSingeTask: action.payload}
 
         case 'SET_STATUS_SINGLE_TASK':
-            return {...state, statusTask: [...action.payload]}
+            return {...state, statusTask: [...state.statusTask, action.payload]}
 
         default:
             return state
